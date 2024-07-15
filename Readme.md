@@ -1,64 +1,65 @@
-Project Structure:
-RAGPTCrawler/
-├── lambda_function.py
-├── RAGPTCrawler.yaml
-├── requirements.txt
-└── ragptvenv/
-    ├── bin/
-    ├── include/
-    ├── lib/
-    └── pyvenv.cfg
+# Class_I_Crawler_Lambda
+## Prerequisites
+- AWS CLI
+- SAM CLI
 
-AWS CLI
-SAM CLI
+## Setup
 
-1. # Create venv
+### 1. Create Virtual Environment
 Use the virtual environment and install dependencies:
-```
+```bash
 python3 -m venv venv
 ```
 
-- Activating the Virtual Environment:
-```
+### 2. Activate the Virtual Environment
+```bash
 source venv/bin/activate
 ```
 
-- Deactivate
-```
+### 3. Deactivate the Virtual Environment
+```bash
 deactivate
 ```
 
-2. **Installing and updating Dependencies**: 
-- With the virtual environment activated, install the project dependencies with:
-```
+### 4. Install and Update Dependencies
+With the virtual environment activated, install the project dependencies:
+```bash
 pip install -r requirements.txt
 ```
-- With the virtual environment activated, update the project dependencies with:
-```
+
+To update the project dependencies:
+```bash
 python -m pip install --upgrade -r requirements.txt
 ```
 
+## Deploy the Project (Using SAM CLI)
 
-# Deploy the Project (Using SAM CLI):
-[One time config] Add aws credential into your local config:
-```
+### 1. Configure AWS Credentials
+Add AWS credentials to your local config (one-time configuration):
+```bash
 vim ~/.aws/credentials
+```
 
+Add the following lines:
+```
 [yi-ragpt]
 aws_access_key_id = xxxxxxxxx
 aws_secret_access_key = xxxxxxx
 ```
-Build the Lambda function:
-```
+
+### 2. Build the Lambda Function
+```bash
 sam build
 ```
-Deploy the Lambda function. Make sure you config the AWS credential with the right profile name:
-```
+
+### 3. Deploy the Lambda Function
+Make sure you configure the AWS credentials with the right profile name:
+```bash
 sam deploy --guided --profile yi-ragpt --config-env default
 ```
 
-Sample Event:
-```
+## Sample Event
+```json
 {
   "httpMethod": "FETCH_HTML",
   "queryStringParameters": {
@@ -67,7 +68,7 @@ Sample Event:
 }
 ```
 
-Invoke the Function Locally:
-```
+## Invoke the Function Locally
+```bash
 sam local invoke -e event.json
 ```
