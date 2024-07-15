@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Get ClassificationI data using product code from FDA website Lambda Function
+
+Globals:
+  Function:
+    Timeout: 300
+    MemorySize: 256
+
+Parameters:
+  DoCreateTable:
+    Type: String
+    Description: "Specify whether to create the DynamoDB table (Yes/No)"
+    Default: "No"
+    AllowedValues:
+      - "Yes"
+      - "No"
+
+Conditions:
+  ShouldCreateTable: !Equals [ !Ref DoCreateTable, "Yes" ]
+
+Resources:
+  GetClassILambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: get_classI_lambda.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: Product_code
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: Product_code
+          REGION: !Ref AWS::Region
+
+  ProductCodeTable:
+    Type: AWS::DynamoDB::Table
+    Condition: ShouldCreateTable
+    Properties:
+      TableName: Product_code
+      AttributeDefinitions:
+        - AttributeName: product_code
+          AttributeType: S
+      KeySchema:
+        - AttributeName: product_code
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+    DeletionPolicy: Retain
+
+Outputs:
+  ProductCodeCrawler:
+    Description: "ClassifincationI Data Crawler Lambda Function ARN"
+    Value: !GetAtt GetClassILambdaFunction.Arn
+  GetClassILambdaFunctionIamRole:
+    Description: "Implicit IAM Role created for ClassifincationI Data Crawler function"
+    Value: !GetAtt GetClassILambdaFunctionRole.Arn
+  ProductCodeTable:
+    Description: "DynamoDB Table for Product Codes"
+    Value: Product_code

@@ -1,0 +1,12 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "getClassIDataCrawler"
+resolve_s3 = true
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+profile = "yi-ragpt"
+disable_rollback = true
+s3_prefix = "getClassIDataCrawler"
+parameter_overrides = "DoCreateTable=\"No\""
