@@ -1,0 +1,68 @@
+{
+  "device": {
+    "S": "Appliance, Nail/Blade/Plate Combination, Single Component"
+  },
+  "regulation_description": {
+    "S": "Single/multiple component metallic bone fixation appliances and accessories."
+  },
+  "definition": {
+
+  },
+  "physical_state": {
+
+  },
+  "technical_method": {
+
+  },
+  "target_area": {
+
+  },
+  "regulation_medical_specialty": {
+    "S": "Orthopedic"
+  },
+  "review_panel": {
+    "S": "Orthopedic"
+  },
+  "product_code": {
+    "S": "KWK"
+  },
+  "premarket_review": {
+
+  },
+  "submission_type": {
+    "S": "510(k)"
+  },
+  "regulation_number": {
+    "S": "888.3030"
+  },
+  "device_class": {
+    "S": "2"
+  },
+  "gmp_exempt": {
+    "S": "No"
+  },
+  "summary_malfunction_reporting": {
+    "S": "Eligible"
+  },
+  "implanted_device": {
+    "S": "Yes"
+  },
+  "life_sustain_support_device": {
+    "S": "No"
+  },
+  "recognized_consensus_standards": {
+
+  },
+  "url": {
+    "S": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPCD/classification.cfm?id=KWK"
+  }
+  
+  
+  
+  
+ 
+  
+ 
+  
+  
+}

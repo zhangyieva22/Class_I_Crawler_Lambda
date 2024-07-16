@@ -6,3 +6,6 @@
 
 # Python virtual environment directory
 venv/
+venv-knewly/
+
+.vscode/

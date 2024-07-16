@@ -72,3 +72,9 @@ sam deploy --guided --profile yi-ragpt --config-env default
 ```bash
 sam local invoke -e event.json
 ```
+
+# Check tables
+```
+aws dynamodb list-tables --profile yi-ragpt --region us-east-2
+```
+
