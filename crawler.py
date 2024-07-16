@@ -109,7 +109,7 @@ class GetData:
         # Combine adjacent text nodes and clean up the text
         combined_section = ' '.join(premarket_review_sections).replace(u'\xa0', u' ').strip()
         # Split the combined text into separate items based on a pattern (e.g., recognizing line breaks and multiple spaces)
-        premarket_review_items = combined_section.split('  ')  # Double space used as a delimiter for simplicity
+        premarket_review_items = combined_section.split('  ')
 
         # Clean up each item
         for item in premarket_review_items:
@@ -123,8 +123,8 @@ class GetData:
 
 def main():
     # Sample product code for testing
-    product_code = "OZH"  # Replace with a valid product code
-    print("Product code")
+    product_code = "OZH"  =
+    print("Product code", product_code)
     try:
         # Instantiate the GetData class
         data_fetcher = GetData(product_code)
