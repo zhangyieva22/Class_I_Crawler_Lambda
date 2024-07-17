@@ -61,9 +61,9 @@ class GetProductCodeData:
 
         return premarket_review_items or 'N/A'
     
-    def _get_recognized_consensus_standards(self):
+    def _get_recognized_consensus_standard(self):
         recognized_consensus_standards = []
-        standards = self.selector.xpath("//td/strong[text()='Recognized Consensus Standards']/following-sibling::table//li")
+        standards = self.selector.xpath("//td/strong[contains(text(), 'Recognized Consensus Standard') or contains(text(), 'Recognized Consensus Standards')]/following-sibling::table//li")
 
         for standard in standards:
             number = standard.xpath("./text()").extract_first()
@@ -95,7 +95,7 @@ class GetProductCodeData:
             "summary_malfunction_reporting": self.extract_with_default("//tr/th[text()='Reporting']/following-sibling::td[1]/text()"),
             "implanted_device": self.extract_with_default("//tr/th[contains(text(), 'Implanted Device?')]/following-sibling::td[1]/text()").strip(),
             "life_sustain_support_device": self.extract_with_default("//tr/th[contains(text(), 'Life-Sustain/Support Device?')]/following-sibling::td[1]/text()").strip(),
-            "recognized_consensus_standards": self._get_recognized_consensus_standards(),
+            "recognized_consensus_standard": self._get_recognized_consensus_standard(),
             "url": self.url
         }
         return self._validate_data(data)
@@ -122,7 +122,7 @@ class GetProductCodeData:
     
 
 def main():
-    product_code = "KWK" #aab
+    product_code = "LNY" #aab
     print("------> Product code:", product_code)
     try:
         data = GetProductCodeData(product_code).get_data()

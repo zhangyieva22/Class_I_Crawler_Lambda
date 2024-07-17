@@ -24,7 +24,7 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
     classI_table = dynamodb.Table('Product_code')
     
-    items = ddb_fetch_items_by_status(classI_table, status="Not started", desired_count=2)
+    items = ddb_fetch_items_by_status(classI_table, status="Not started", desired_count=10)
     
     for item in items:
         product_code = item['product_code']
