@@ -95,7 +95,7 @@ def ddb_fetch_items_by_status(table, status="Not started", desired_count=20):
     return items
 
 
-def ddb_update_status(table, product_code, new_status, data=None):
+def ddb_update_record(table, product_code, new_status, data=None):
     # Prepare the update expression to set 'update_at' and conditionally set 'create_at'
     update_expression = 'SET #status = :new_status, #update_at = :update_at,  #create_at = if_not_exists(#create_at, :create_at)'
     expression_attribute_names = {

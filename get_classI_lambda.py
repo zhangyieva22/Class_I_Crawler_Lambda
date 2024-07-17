@@ -9,39 +9,38 @@ step 4. store data into DynamoDB table
 
 
 import boto3
-from ddb_utils import ddb_fetch_items_by_status, ddb_update_status
-from crawler import GetData
-
-
-
-# dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
-# classI_table = dynamodb.Table('Product_code')
-
-session = boto3.Session(profile_name='yi-ragpt', region_name='us-east-2')
-dynamodb = session.resource('dynamodb')
-classI_table = dynamodb.Table("Product_code")
-p_k_den_table = dynamodb.Table("p-k-den-numbers")
+from ddb_utils import ddb_fetch_items_by_status, ddb_update_record
+from crawler import GetProductCodeData
 
 
 def lambda_handler(event, context):
-    items = ddb_fetch_items_by_status(classI_table, status="Not started", desired_count=1)
-
+    # sourcery skip: use-fstring-for-concatenation
+    # For local testing
+    # session = boto3.Session(profile_name='yi-ragpt', region_name='us-east-2')
+    # dynamodb = session.resource('dynamodb')
+    # classI_table = dynamodb.Table("Product_code")
+    
+    # For AWS Lambda
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+    classI_table = dynamodb.Table('Product_code')
+    
+    items = ddb_fetch_items_by_status(classI_table, status="Not started", desired_count=2)
+    
     for item in items:
         product_code = item['product_code']
-        print("----> product_code %s \n" % product_code)
+        ddb_update_record(classI_table, product_code, new_status='Started')
         
-        ddb_update_status(classI_table, product_code, new_status='Started')
         try:
-            data = GetData(product_code).get_classI_data()
+            data = GetProductCodeData(product_code).get_data()
             print("----> data %s \n" % data)
             if data:
-                ddb_update_status(classI_table, product_code, new_status='Completed', data=data)
+                ddb_update_record(classI_table, product_code, new_status='Completed', data=data)
             else:
-                ddb_update_status(classI_table, product_code, new_status='No data found')
+                ddb_update_record(classI_table, product_code, new_status='No data found')
                 
         except Exception as e:
-            print(f'Error processing {product_code}: {str(e)}')
-            ddb_update_status(classI_table, product_code, new_status='Failed', data={'error_message': str(e)})
+            print('Error processing ' + str(product_code) + ': ' + str(e))
+            ddb_update_record(classI_table, product_code, new_status='Failed', data={'error_message': str(e)})
 
 
 # main function - scrapy classificationI data from fda website using product_code
